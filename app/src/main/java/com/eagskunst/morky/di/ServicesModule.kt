@@ -1,6 +1,7 @@
 package com.eagskunst.morky.di
 
 import com.eagskunst.morky.BuildConfig
+import com.eagskunst.morky.data.api.CharacterApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -24,4 +25,7 @@ class ServicesModule {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(BuildConfig.API_URL)
         .client(client)
+
+    @Provides
+    fun provideCharacterApi(retrofit: Retrofit) = retrofit.create(CharacterApi::class.java)
 }
