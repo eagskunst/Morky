@@ -1,7 +1,7 @@
-package com.eagskunst.morky.data.datasource
+package com.eagskunst.morky.data.datasource.remote
 
 import com.eagskunst.morky.data.api.CharacterApi
-import com.eagskunst.morky.data.model.toEntity
+import com.eagskunst.morky.data.model.remote.toEntity
 import com.eagskunst.morky.domain.entity.CharacterEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

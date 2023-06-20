@@ -1,4 +1,4 @@
-package com.eagskunst.morky.data.model
+package com.eagskunst.morky.data.model.remote
 
 import com.eagskunst.morky.domain.entity.CharacterEntity
 import com.eagskunst.morky.domain.entity.CharacterStatus

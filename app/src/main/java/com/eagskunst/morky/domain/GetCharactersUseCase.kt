@@ -10,8 +10,7 @@ import javax.inject.Inject
 class GetCharactersUseCase @Inject constructor(
     dispatchers: CoroutineDispatchers,
     private val repository: CharacterRepository,
-) :
-    BaseUseCase(dispatchers) {
+) : BaseUseCase(dispatchers) {
 
     suspend fun execute(page: Int = 1): Flow<List<CharacterEntity>> {
         return repository.getCharacters(page)

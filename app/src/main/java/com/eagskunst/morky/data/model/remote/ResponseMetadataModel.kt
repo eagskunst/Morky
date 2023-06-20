@@ -1,4 +1,4 @@
-package com.eagskunst.morky.data.model
+package com.eagskunst.morky.data.model.remote
 
 import com.squareup.moshi.JsonClass
 

@@ -1,6 +1,6 @@
 package com.eagskunst.morky.data.api
 
-import com.eagskunst.morky.data.model.CharactersResponseModel
+import com.eagskunst.morky.data.model.remote.CharactersResponseModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
