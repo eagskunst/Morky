@@ -15,7 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.eagskunst.morky.ui.component.CharacterLazyList
+import com.eagskunst.morky.ui.component.CharactersPagerWithInfoCard
 import com.eagskunst.morky.ui.theme.MorkyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,7 +43,7 @@ fun MainView(viewModel: MainViewModel = hiltViewModel()) {
     val viewState by viewModel.state.collectAsState()
 
     when (val state = viewState) {
-        is MainViewState.Characters -> CharacterLazyList(characters = state.characters)
+        is MainViewState.Characters -> CharactersPagerWithInfoCard(characters = state.characters)
         is MainViewState.Error -> Text("Error: ${state.cause}")
         MainViewState.Loading -> CircularProgressIndicator()
     }
