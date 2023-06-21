@@ -3,8 +3,8 @@ package com.eagskunst.morky.ui.component
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +17,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,10 +36,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import androidx.palette.graphics.Palette
 import com.eagskunst.morky.R
 import com.eagskunst.morky.domain.entity.CharacterEntity
 import com.eagskunst.morky.domain.entity.CharacterStatus
 import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.components.LocalImageComponent
 import com.skydoves.landscapist.fresco.FrescoImage
 import kotlin.math.absoluteValue
 
@@ -51,6 +54,7 @@ fun CharacterImage(
     FrescoImage(
         imageUrl = imageUrl,
         modifier = modifier,
+        component = LocalImageComponent.current,
         imageOptions = ImageOptions(
             contentScale = ContentScale.Crop,
             alignment = Alignment.Center,
@@ -67,14 +71,18 @@ fun CharacterInfoCard(
     backgroundColor: Color = Color.White,
 ) {
     Card(
-        modifier = modifier.fillMaxWidth()
-            .padding(30.dp)
-            .background(backgroundColor),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(30.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = backgroundColor,
+        ),
     ) {
         AnimatedContent(targetState = character) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(20.dp),
             ) {
                 val commonAlign = TextAlign.Center
@@ -107,6 +115,7 @@ fun CharactersPager(
     modifier: Modifier = Modifier,
     pagerState: PagerState = rememberPagerState(),
 ) {
+    // https://github.com/google/accompanist/blob/main/sample/src/main/java/com/google/accompanist/sample/pager/HorizontalPagerTransitionSample.kt
     HorizontalPager(
         pageCount = characters.size,
         state = pagerState,
@@ -160,9 +169,15 @@ fun CharactersPager(
 fun CharactersPagerWithInfoCard(
     characters: List<CharacterEntity>,
     modifier: Modifier = Modifier,
+    palette: Palette? = null,
 ) {
     val pagerState = rememberPagerState()
     var currentPage by remember { mutableStateOf(0) }
+    val cardBackgroundColor by animateColorAsState(
+        targetValue = palette?.lightMutedSwatch?.rgb?.let { finalColor ->
+            Color(finalColor)
+        } ?: Color.White,
+    )
 
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
@@ -175,7 +190,10 @@ fun CharactersPagerWithInfoCard(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         CharactersPager(characters = characters, pagerState = pagerState)
-        CharacterInfoCard(character = characters[currentPage])
+        CharacterInfoCard(
+            character = characters[currentPage],
+            backgroundColor = cardBackgroundColor,
+        )
     }
 }
 

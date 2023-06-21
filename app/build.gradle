@@ -94,6 +94,7 @@ dependencies {
     implementation "com.github.skydoves:landscapist-bom:$landscapistVersion"
     implementation "com.github.skydoves:landscapist-fresco"
     implementation "com.github.skydoves:landscapist-placeholder"
+    implementation "com.github.skydoves:landscapist-palette"
 
     // Http requests
     def retrofitVersion = "2.9.0"
