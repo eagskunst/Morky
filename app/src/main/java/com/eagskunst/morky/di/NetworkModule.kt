@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -25,7 +26,7 @@ class NetworkModule {
     }
 
     @Provides
-    fun provideOkHttpCache(context: Context): Cache {
+    fun provideOkHttpCache(@ApplicationContext context: Context): Cache {
         val cacheFile = File(context.cacheDir, "okhttp_cache")
         return Cache(cacheFile, 10_000_000L)
     }

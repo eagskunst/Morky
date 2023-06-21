@@ -3,7 +3,6 @@ package com.eagskunst.morky.di
 import com.eagskunst.morky.BuildConfig
 import com.eagskunst.morky.data.api.CharacterApi
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +16,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class ServicesModule {
     @Provides
     fun provideMoshiInstance() = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
         .build()
 
     @Provides
@@ -25,6 +23,7 @@ class ServicesModule {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(BuildConfig.API_URL)
         .client(client)
+        .build()
 
     @Provides
     fun provideCharacterApi(retrofit: Retrofit) = retrofit.create(CharacterApi::class.java)
