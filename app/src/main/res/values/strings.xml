@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Morky</string>
+    <string name="error_message">There was an unexpected error</string>
+    <string name="retry_label">Retry</string>
 </resources>
