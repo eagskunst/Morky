@@ -80,6 +80,7 @@ fun MainView(viewModel: MainViewModel = hiltViewModel(), backgroundPalette: Pale
         is MainViewState.Characters -> CharactersPagerWithInfoCard(
             characters = state.characters,
             palette = backgroundPalette,
+            onInputChange = viewModel::onNewFilterInput,
         )
 
         is MainViewState.Error -> ErrorComponent(
@@ -88,11 +89,18 @@ fun MainView(viewModel: MainViewModel = hiltViewModel(), backgroundPalette: Pale
             viewModel.getCharacters()
         }
 
-        MainViewState.Loading -> Box {
-            CircularProgressIndicator(
-                modifier = Modifier.size(50.dp).align(Alignment.Center),
-            )
-        }
+        MainViewState.Loading -> LoadingComponent()
+    }
+}
+
+@Composable
+private fun LoadingComponent() {
+    Box {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .size(50.dp)
+                .align(Alignment.Center),
+        )
     }
 }
 
@@ -119,5 +127,13 @@ fun ErrorComponent(
 fun ErrorComponentPreview() {
     MorkyTheme {
         ErrorComponent()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoadingComponentPreview() {
+    MorkyTheme {
+        LoadingComponent()
     }
 }

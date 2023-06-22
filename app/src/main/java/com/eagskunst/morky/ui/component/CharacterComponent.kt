@@ -16,10 +16,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,7 +35,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -70,6 +77,7 @@ fun CharacterInfoCard(
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.White,
 ) {
+    val scrollState = rememberScrollState()
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -82,7 +90,9 @@ fun CharacterInfoCard(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .verticalScroll(
+                        scrollState,
+                    ).fillMaxWidth()
                     .padding(20.dp),
             ) {
                 val commonAlign = TextAlign.Center
@@ -170,6 +180,7 @@ fun CharactersPagerWithInfoCard(
     characters: List<CharacterEntity>,
     modifier: Modifier = Modifier,
     palette: Palette? = null,
+    onInputChange: (String) -> Unit = {},
 ) {
     val pagerState = rememberPagerState()
     var currentPage by remember { mutableStateOf(0) }
@@ -178,7 +189,6 @@ fun CharactersPagerWithInfoCard(
             Color(finalColor)
         } ?: Color.White,
     )
-
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
             currentPage = page
@@ -186,14 +196,55 @@ fun CharactersPagerWithInfoCard(
     }
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        InputBar(Modifier.fillMaxWidth(), onInputChange)
+        if (characters.isEmpty()) {
+            EmptyStateComponent()
+            return@Column
+        }
         CharactersPager(characters = characters, pagerState = pagerState)
         CharacterInfoCard(
             character = characters[currentPage],
             backgroundColor = cardBackgroundColor,
         )
+    }
+}
+
+@Composable
+fun InputBar(
+    modifier: Modifier = Modifier,
+    onInputChange: (String) -> Unit = {},
+) {
+    var value by remember { mutableStateOf("") }
+
+    TextField(
+        modifier = modifier.padding(20.dp),
+        value = value,
+        onValueChange = {
+            value = it
+            onInputChange(it)
+        },
+        label = { Text("Search characters") },
+    )
+}
+
+@Composable
+fun EmptyStateComponent(
+    modifier: Modifier = Modifier,
+    message: String = LocalContext.current.getString(R.string.empty_state_label),
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.baseline_mood_bad_24),
+            contentDescription = "sad",
+        )
+        Text(text = message, textAlign = TextAlign.Center)
     }
 }
 
