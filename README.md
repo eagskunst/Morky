@@ -26,7 +26,7 @@ This applications follows the MVVM + Clean Architecture with TDD.
 
 Run `gradlew test` command.
 
-### Dependencies
+## Dependencies
 
 1. Compose: Reactive UI in Android
 2. Landscapist with Fresco: Flexible image loading library for Compose. Fresco was chosen because
