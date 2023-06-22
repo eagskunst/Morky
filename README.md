@@ -38,7 +38,7 @@ Run `gradlew test` command.
 7. Coroutines + Flow: Background work with flows, who now has a powerful operators API.
 8. Tests dependencies: mockk, truth, coroutiens-test.
 
-Aside from Landscapist, Retrofit and Mosho, all dependencies come from either Google or Jetbrains.
+Aside from Landscapist, Retrofit and Moshi, all dependencies come from either Google or Jetbrains.
 
 ## Contributing
 
