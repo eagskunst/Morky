@@ -93,7 +93,6 @@ dependencies {
     def landscapistVersion = "2.2.2"
     implementation "com.github.skydoves:landscapist-bom:$landscapistVersion"
     implementation "com.github.skydoves:landscapist-fresco"
-    implementation "com.github.skydoves:landscapist-placeholder"
     implementation "com.github.skydoves:landscapist-palette"
 
     // Http requests
