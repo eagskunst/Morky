@@ -1,5 +1,6 @@
 package com.eagskunst.morky.presentation
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eagskunst.morky.domain.GetCharactersUseCase
@@ -20,7 +21,10 @@ class MainViewModel @Inject constructor(
     private val mutableState = MutableStateFlow<MainViewState>(MainViewState.Loading)
     val state: StateFlow<MainViewState>
         get() = mutableState
-    private var savedCharacters = listOf<CharacterEntity>()
+    var savedCharacters = listOf<CharacterEntity>()
+        @VisibleForTesting get
+
+        @VisibleForTesting set
     private val inputFlow = MutableStateFlow("")
     private var page = 1
 
@@ -43,6 +47,7 @@ class MainViewModel @Inject constructor(
         }
         inputFlow.value = input
         if (inputFlow.subscriptionCount.value >= 1) {
+            // just collect once
             return
         }
         collectInputFlow()

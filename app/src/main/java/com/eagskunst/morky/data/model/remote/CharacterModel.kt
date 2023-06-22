@@ -37,7 +37,9 @@ fun CharacterModel.toEntity() = CharacterEntity(
     id = id,
     name = name,
     imageUrl = image,
-    status = CharacterStatus.valueOf(status.uppercase()),
+    status = runCatching {
+        CharacterStatus.valueOf(status.uppercase())
+    }.getOrDefault(CharacterStatus.UNKNOWN),
     species = species,
     gender = gender,
     location = location.name,
